@@ -1,4 +1,4 @@
-# ubuntu-change-gdm-background
+# ubuntu-20.04-change-gdm-background
 
 This script automates the process of changing the GNOME Display Manager
 background of Ubuntu version 20.04 Focal Fossa.
@@ -21,9 +21,9 @@ And give it execution permition with `chmod +x gdm-change-login-background`
 
 ## Usage
 
-Run the script with root privileges such as `sudo ./path/to/script /path/to/image.
+Run the script with root privileges such as `sudo ./path/to/script /path/to/image`.
 
-If you see a message login image sucessfully changed, then, when you restart gdm or reboot your computer, your gdm background should be covered with the image you selected.
+If you see a message `login image sucessfully changed`, then, when you restart gdm or reboot your computer, your gdm background should be covered with the image you selected.
 
-You can restore your original gdm theme any time with sudo ./ubuntu-20.04-change-gdm-background --restore.
+You can restore your original gdm theme any time with sudo `./ubuntu-20.04-change-gdm-background --restore`.
 

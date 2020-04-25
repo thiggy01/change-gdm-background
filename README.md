@@ -13,7 +13,9 @@ configuration files inside the gdm3-theme.gresource file.
 
 ## Installation
 
-Download it with the command below:
+Prepare with installing `sudo apt install libglib2.0-dev-bin`.
+
+Then download it with the command below:
 
     curl -L -O github.com/thiggy01/ubuntu-20.04-change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
 

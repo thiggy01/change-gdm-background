@@ -68,16 +68,16 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
 :wq
 EOF
     
-	# Generate gresource xml file.
-	echo '<?xml version="1.0" encoding="UTF-8"?>
+    # Generate gresource xml file.
+    echo '<?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/org/gnome/shell/theme">' > $workDir/theme/$gdm3xml
-	for file in `gresource list $gdm3Resource~`; do
-	    echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
-	    >> $workDir/theme/$gdm3xml
-	done
-	echo "        <file>$imgFile</file>" >> $workDir/theme/$gdm3xml 
-	echo '    </gresource>
+    for file in `gresource list $gdm3Resource~`; do
+	echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
+	>> $workDir/theme/$gdm3xml
+    done
+    echo "        <file>$imgFile</file>" >> $workDir/theme/$gdm3xml 
+    echo '    </gresource>
 </gresources>' >> $workDir/theme/$gdm3xml
 
     # Compile resources into a gresource binary file.
@@ -87,13 +87,14 @@ EOF
     # Move the generated binary file to the gnome-shell folder.
     mv gdm3-theme.gresource /usr/share/gnome-shell/
 
-    rm -r $workDir
-
     # Check if gresource was sucessfuly moved to its default folder.
     if [ "$?" -eq 0 ]; then
 	echo 'GDM background sucessfuly changed.'
 	echo 'Restart GDM service to apply change.'
     fi
+
+    # Remove temporary files.
+    rm -r $workDir
 
 else
 

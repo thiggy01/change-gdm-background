@@ -6,11 +6,10 @@ if [ "$(id -u)" -ne 0 ] ; then
     exit 1
 fi 
 
-# Check if glib 2.0 libraries are installed.
+# Check if glib 2.0 development libraries are installed.
 if [ ! "$(dpkg -s libglib2.0-dev-bin | grep Status | cut -d ' ' -f 4)" \
     == installed ]; then
     echo "Additional glib 2.0 libraries need to be installed."
-    echo "Do you what to install it?"
     read -p "Type y to proceed. Any other key to exit: " -n 1
     if [[ $REPLY =~ ^[y]$ ]]; then
 	apt install libglib2.0-dev-bin
@@ -101,6 +100,6 @@ else
     # If no file was submited or file submited isn't an image,
     # show this message.
     echo "Please, submit a .jpg or png image file."
-    echo "Usage: sudo /path/to/script /path/to/image.*g"
+    echo "Usage: sudo ./ubuntu-20.04-change-gdm-background /path/to/image.*g"
 
 fi

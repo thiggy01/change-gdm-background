@@ -8,7 +8,7 @@ background of Ubuntu version 20.04 Focal Fossa.
 This script wont work with any older version of Ubuntu because they have a different
 way of dealing with gdm settings.
 
-This tool was made specifically to work with Ubuntu 20.04 as it now buldles all 
+This tool was made specifically to work with Ubuntu 20.04 as it now bundles all 
 configuration files inside the gdm3-theme.gresource file. 
 
 ## Installation
@@ -23,7 +23,7 @@ And give it execution permition with `chmod +x gdm-change-login-background`
 
 ## Usage
 
-Run the script with root privileges such as `sudo ./path/to/script /path/to/image`.
+Run the script with root privileges such as `sudo ./ubuntu-20.04-change-gdm-background /path/to/image`.
 
 If you see a message `login image sucessfully changed`, then, when you restart gdm or reboot your computer, your gdm background should be covered with the image you selected.
 

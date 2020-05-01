@@ -34,6 +34,8 @@ if [ "$?" -eq 0 ]; then
     echo 'Restart GDM service to apply change.'
     exit 0
 fi
+}
+
 # Restore the original gdm3 theme.
 [ "$1" = "--restore" ] && restore
 

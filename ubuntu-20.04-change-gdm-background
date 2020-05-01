@@ -17,7 +17,6 @@ if [ ! "$(dpkg -s libglib2.0-dev-bin | grep Status | cut -d ' ' -f 4)" \
 	echo
 	exit 1
     fi
-
 fi
 
 # Assign the default gdm theme file path.
@@ -26,13 +25,17 @@ gdm3Resource=/usr/share/gnome-shell/gdm3-theme.gresource
 # Create a backup file of the original theme if there isn't one.
 [ ! -f "$gdm3Resource"~ ] && cp $gdm3Resource $gdm3Resource~
 
-# Restore the original gdm3 theme.
-[ "$1" = "--restore" ] && mv $gdm3Resource~ $gdm3Resource
+# Restore backup function.
+restore () {
+mv $gdm3Resource~ $gdm3Resource
 if [ "$?" -eq 0 ]; then 
+    chmod 644 $gdm3Resource
     echo 'GDM background sucessfully restored.'
     echo 'Restart GDM service to apply change.'
     exit 0
 fi
+# Restore the original gdm3 theme.
+[ "$1" = "--restore" ] && restore
 
 # Test if argument is an image file.
 if [[ $(file --mime-type -b "$1") == image/*g ]]; then
@@ -89,18 +92,24 @@ EOF
 
     # Check if gresource was sucessfuly moved to its default folder.
     if [ "$?" -eq 0 ]; then
+    # Solve a permission change issue (thanks to @huepf from github).
+	chmod 644 $gdm3Resource
 	echo 'GDM background sucessfuly changed.'
 	echo 'Restart GDM service to apply change.'
+    else
+	echo 'something went wrong.'
+	restore
+	echo 'No changes were applied.'
     fi
 
-    # Remove temporary files.
+    # Remove temporary directories and files.
     rm -r $workDir
 
 else
 
     # If no file was submited or file submited isn't an image,
     # show this message.
-    echo "Please, submit a .jpg or png image file."
+    echo "Please, submit a .jpg or .png image file."
     echo "Usage: sudo ./ubuntu-20.04-change-gdm-background /path/to/image.*g"
 
 fi

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Check if script is run by root.
-if [ "$(id -u)" -ne 0 ] ; then 
-    echo "This script must be run as root." 
+if [ "$(id -u)" -ne 0 ] ; then
+    echo "This script must be run as root."
     exit 1
-fi 
+fi
 
 # Check if glib 2.0 development libraries are installed.
 if [ ! "$(dpkg -s libglib2.0-dev-bin | grep Status | cut -d ' ' -f 4)" \
@@ -12,10 +12,10 @@ if [ ! "$(dpkg -s libglib2.0-dev-bin | grep Status | cut -d ' ' -f 4)" \
     echo "Additional glib 2.0 libraries need to be installed."
     read -p "Type y to proceed. Any other key to exit: " -n 1
     if [[ $REPLY =~ ^[y]$ ]]; then
-	apt install libglib2.0-dev-bin
+        apt install libglib2.0-dev-bin
     else
-	echo
-	exit 1
+        echo
+        exit 1
     fi
 
 fi
@@ -28,7 +28,7 @@ gdm3Resource="/usr/share/gnome-shell/gdm3-theme.gresource"
 
 # Restore the original gdm3 theme.
 [ "$1" = "--restore" ] && mv "$gdm3Resource~" "$gdm3Resource"
-if [ "$?" -eq 0 ]; then 
+if [ "$?" -eq 0 ]; then
     echo "GDM background sucessfully restored."
     echo "Restart GDM service to apply change."
     exit 0
@@ -45,36 +45,36 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
 
     # Create directories from resource list.
     for resource in $(gresource list "$gdm3Resource~"); do
-	resource="${resource#\/org\/gnome\/shell/}"
-	if [ ! -d "$workDir/${resource%/*}" ]; then
-	  mkdir -p "$workDir/${resource%/*}"
-	fi
+        resource="${resource#\/org\/gnome\/shell/}"
+        if [ ! -d "$workDir/${resource%/*}" ]; then
+            mkdir -p "$workDir/${resource%/*}"
+        fi
     done
 
     # Extract resources from binary file.
     for resource in $(gresource list "$gdm3Resource~"); do
-	gresource extract "$gdm3Resource~" "$resource" > \
-	  "$workDir/${resource#\/org\/gnome\/shell/}"
+        gresource extract "$gdm3Resource~" "$resource" > \
+            "$workDir/${resource#\/org\/gnome\/shell/}"
     done
 
     # Copy selected image to the resources directory.
     cp "$gdmBgImg" "$workDir/theme"
 
     # Change gdm background to the image you submited.
-	oldImgCssRegex="#lockDialogGroup \{.*?\}"
-	newImgCss="#lockDialogGroup {
+    oldImgCssRegex="#lockDialogGroup \{.*?\}"
+    newImgCss="#lockDialogGroup {
   background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
   background-size: cover; }"
 
-	perl -i -p0e "s/$oldImgCssRegex/$newImgCss/s" "$workDir/theme/gdm3.css"
-    
+    perl -i -p0e "s/$oldImgCssRegex/$newImgCss/s" "$workDir/theme/gdm3.css"
+
     # Generate gresource xml file.
     echo '<?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/org/gnome/shell/theme">' > "$workDir/theme/$gdm3xml"
     for file in $(gresource list "$gdm3Resource~"); do
-	echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
-	>> "$workDir/theme/$gdm3xml"
+        echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
+            >> "$workDir/theme/$gdm3xml"
     done
     echo "        <file>$imgFile</file>" >> "$workDir/theme/$gdm3xml"
     echo '    </gresource>
@@ -89,8 +89,8 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
 
     # Check if gresource was sucessfuly moved to its default folder.
     if [ "$?" -eq 0 ]; then
-	echo "GDM background sucessfuly changed."
-	echo "Restart GDM service to apply change."
+        echo "GDM background sucessfuly changed."
+        echo "Restart GDM service to apply change."
     fi
 
     # Remove temporary files.

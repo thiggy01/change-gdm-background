@@ -29,3 +29,5 @@ If you see a message `login image sucessfully changed`, then, when you restart g
 
 You can restore your original gdm theme any time with sudo `./ubuntu-20.04-change-gdm-background --restore`.
 
+If you feel this tool was useful and want to show some appreciation, you can donate me via https://ko-fi.com/thiggy01.
+

@@ -11,6 +11,10 @@ way of dealing with gdm settings.
 This tool was made specifically to work with Ubuntu 20.04 as it now bundles all 
 configuration files inside the gdm3-theme.gresource file. 
 
+Please, note that GDM3 WON'T ACCEPT FILES NAMES WITH SPACES, so don't use them to set your background
+bacause you may end up with a weird gdm screen. Of course, you can go back to your original gdm
+theme with the `--restore` option.
+
 ## Installation
 
 First, you will need to install libglib2.0-dev-bin with `sudo apt install libglib2.0-dev-bin`
@@ -25,7 +29,8 @@ And give it execution permition with `chmod +x gdm-change-login-background`
 
 Run the script with root privileges such as `sudo ./ubuntu-20.04-change-gdm-background /path/to/image`.
 
-If you see a message `login image sucessfully changed`, then, when you restart gdm or reboot your computer, your gdm background should be covered with the image you selected.
+If you see a message `login image sucessfully changed`, then, when you restart gdm or reboot your 
+computer, your gdm background should be covered with the image you selected.
 
 You can restore your original gdm theme any time with sudo `./ubuntu-20.04-change-gdm-background --restore`.
 

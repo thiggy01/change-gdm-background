@@ -66,13 +66,12 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     cp "$gdmBgImg" "$workDir"/theme
 
     # Change gdm background to the image you submited.
-    ex "$workDir"/theme/gdm3.css << EOF
-/#lockDialogGroup
-:normal jf-r:ld}a url(resource:///org/gnome/shell/theme/$imgFile); \
-o  background-size: cover; }
-:wq
-EOF
-    
+    oldImgCssRegex="#lockDialogGroup \{.*?\}"
+    newImgCss="#lockDialogGroup {
+  background: url(resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile);
+  background-size: cover; }"
+
+	perl -i -p0e "s/$oldImgCssRegex/$newImgCss/s" "$workDir/theme/gdm3.css"    
     # Generate gresource xml file.
     echo '<?xml version="1.0" encoding="UTF-8"?>
 <gresources>

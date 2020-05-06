@@ -66,12 +66,12 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     cp "$gdmBgImg" "$workDir"/theme
 
     # Change gdm background to the image you submited.
-    oldImgCssRegex="#lockDialogGroup \{.*?\}"
-    newImgCss="#lockDialogGroup {
+    oldImg="#lockDialogGroup \{.*?\}"
+    newImg="#lockDialogGroup {
   background: url(resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile);
   background-size: cover; }"
+    perl -i -0777 -pe "s/$oldImg/$newImg/s" "$workDir"/theme/gdm3.css
 
-	perl -i -p0e "s/$oldImgCssRegex/$newImgCss/s" "$workDir/theme/gdm3.css"    
     # Generate gresource xml file.
     echo '<?xml version="1.0" encoding="UTF-8"?>
 <gresources>
@@ -80,7 +80,7 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
 	echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
 	>> "$workDir"/theme/"$gdm3xml"
     done
-    echo "        <file>$imgFile</file>" >> $workDir/theme/$gdm3xml
+    echo "        <file>$imgFile</file>" >> "$workDir"/theme/"$gdm3xml"
     echo '    </gresource>
 </gresources>' >> "$workDir"/theme/"$gdm3xml"
 

@@ -1,4 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Autor: Thiago Silva
+# Contact: thiagos.dasilva@gmail.com
+# URL: https://github.com/thiggy01/ubuntu-20.04-change-gdm-background
+# =================================================================== #
 
 # Check if script is run by root.
 if [ "$(id -u)" -ne 0 ] ; then

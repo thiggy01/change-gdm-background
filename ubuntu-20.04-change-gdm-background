@@ -2,15 +2,15 @@
 
 # Check if script is run by root.
 if [ "$(id -u)" -ne 0 ] ; then
-    echo "This script must be run as root."
+    echo 'This script must be run as root.'
     exit 1
 fi
 
 # Check if glib 2.0 development libraries are installed.
-if [ ! "$(dpkg -s libglib2.0-dev-bin | grep Status | cut -d ' ' -f 4)" \
+if [ ! $(dpkg -s libglib2.0-dev-bin | grep Status | cut -d ' ' -f 4) \
     == installed ]; then
-    echo "Additional glib 2.0 libraries need to be installed."
-    read -p "Type y or Y to proceed. Any other key to exit: " -n 1
+    echo 'Additional glib 2.0 libraries need to be installed.'
+    read -p 'Type y or Y to proceed. Any other key to exit: ' -n 1
     if [[ "$REPLY" =~ ^[yY]$ ]]; then
 	apt install libglib2.0-dev-bin
     else
@@ -37,7 +37,7 @@ fi
 }
 
 # Restore the original gdm3 theme.
-[ "$1" = "--restore" ] && restore
+[ "$1" == "--restore" ] && restore
 
 # Test if argument is an image file.
 if [[ $(file --mime-type -b "$1") == image/*g ]]; then
@@ -49,7 +49,7 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     imgFile=$(basename "$gdmBgImg")
 
     # Create directories from resource list.
-    for resource in `gresource list $gdm3Resource~`; do
+    for resource in `gresource list "$gdm3Resource~"`; do
 	resource="${resource#\/org\/gnome\/shell/}"
 	if [ ! -d "$workDir"/"${resource%/*}" ]; then
 	  mkdir -p "$workDir"/"${resource%/*}"
@@ -68,8 +68,8 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     # Change gdm background to the image you submited.
     oldImg="#lockDialogGroup \{.*?\}"
     newImg="#lockDialogGroup {
-  background: url(resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile);
-  background-size: cover; }"
+	background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
+	background-size: cover; }"
     perl -i -0777 -pe "s/$oldImg/$newImg/s" "$workDir"/theme/gdm3.css
 
     # Generate gresource xml file.
@@ -114,7 +114,8 @@ else
 
     # If no file was submited or file submited isn't an image,
     # show this message.
-    echo "Please, submit a .jpg or .png image file."
-    echo "Usage: sudo ./ubuntu-20.04-change-gdm-background /path/to/image.*g"
+    echo 'Image file not foud.'
+    echo 'Please, submit a .jpg or .png image file.'
+    echo 'Usage: sudo ./ubuntu-20.04-change-gdm-background /path/to/image.*g'
 
 fi

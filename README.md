@@ -1,3 +1,4 @@
+
 # ubuntu-20.04-change-gdm-background
 
 This script automates the process of changing the GNOME Display Manager
@@ -9,20 +10,19 @@ This script wont work with any older version of Ubuntu because they have a diffe
 way of dealing with gdm settings.
 
 This tool was made specifically to work with Ubuntu 20.04 as it now bundles all 
-configuration files inside the gdm3-theme.gresource file. 
+configuration files inside the gdm3-theme.gresource file.
 
-Please, note that GDM3 WON'T ACCEPT FILES NAMES WITH SPACES, so don't use them to set your background
-bacause you may end up with a weird gdm screen. Of course, you can go back to your original gdm
-theme with the `--restore` option.
+If you are going to set an image file that has spaces in its file name or folders, remember to 
+scape them with backslashes.
 
 ## Installation
 
 First, you will need to install libglib2.0-dev-bin with `sudo apt install libglib2.0-dev-bin`
 
 Then, you can download the script with the command below:
-
-    curl -L -O github.com/thiggy01/ubuntu-20.04-change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
-
+```
+curl -L -O github.com/thiggy01/ubuntu-20.04-change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
+```
 And give it execution permition with `chmod +x gdm-change-login-background`
 
 ## Usage
@@ -32,7 +32,9 @@ Run the script with root privileges such as `sudo ./ubuntu-20.04-change-gdm-back
 If you see a message `login image sucessfully changed`, then, when you restart gdm or reboot your 
 computer, your gdm background should be covered with the image you selected.
 
-You can restore your original gdm theme any time with sudo `./ubuntu-20.04-change-gdm-background --restore`.
+You can restore your original gdm theme any time with sudo `./ubuntu-20.04-change-gdm-background 
+--restore`.
 
-If you feel this tool was useful and want to show some appreciation, you can donate me via https://ko-fi.com/thiggy01.
+If you feel this tool was useful and want to show some appreciation, you can donate me via 
+https://ko-fi.com/thiggy01.
 

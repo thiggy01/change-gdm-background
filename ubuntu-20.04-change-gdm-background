@@ -11,8 +11,7 @@ if [ "$(id -u)" -ne 0 ] ; then
 fi
 
 # Check if glib 2.0 development libraries are installed.
-if [ ! $(dpkg -s libglib2.0-dev-bin | grep Status | cut -d ' ' -f 4) \
-    == installed ]; then
+if ! [ -x "$(command -v glib-compile-resources)" ]; then
     echo 'Additional glib 2.0 libraries need to be installed.'
     read -p 'Type y or Y to proceed. Any other key to exit: ' -n 1
     if [[ "$REPLY" =~ ^[yY]$ ]]; then

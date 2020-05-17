@@ -1,6 +1,6 @@
 # ubuntu-20.04-change-gdm-background
 
-This script automates the process of changing the GNOME Display Manager background
+This script automates the process of setting an image in the GNOME Display Manager 3 background
 of Ubuntu version 20.04 Focal Fossa.
 
 ## Warning
@@ -8,11 +8,11 @@ of Ubuntu version 20.04 Focal Fossa.
 This script wont work with any older version of Ubuntu because they have a different
 way of dealing with gdm settings.
 
-This tool was made specifically to work with Ubuntu 20.04 as it now bundles all
-configuration files inside the gdm3-theme.gresource file.
-
 It also won't work if your system is set to a custom gdm3 theme. You will have to reset to the
 default configuration of gdm3 before using the script.
+
+This tool was made specifically to work with Ubuntu 20.04 as it now bundles all
+configuration files inside the a .gresource file.
 
 If you are going to set an image file that has spaces in its file name or folders, remember to
 scape them with backslashes.

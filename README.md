@@ -1,7 +1,7 @@
 # ubuntu-20.04-change-gdm-background
 
 This script automates the process of setting an image in the GNOME Display Manager 3 background
-of Ubuntu version 20.04 Focal Fossa.
+which comes by default with Ubuntu version 20.04 Focal Fossa.
 
 ## Warning
 

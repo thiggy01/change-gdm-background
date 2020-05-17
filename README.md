@@ -12,7 +12,7 @@ It also won't work if your system is set to a custom gdm3 theme. You will have t
 default configuration of gdm3 before using the script.
 
 This tool was made specifically to work with Ubuntu 20.04 as it now bundles all
-configuration files inside the a .gresource file.
+configuration files inside a .gresource file.
 
 If you are going to set an image file that has spaces in its file name or folders, remember to
 scape them with backslashes.
@@ -23,7 +23,7 @@ First, you will need to install libglib2.0-dev-bin with `sudo apt install libgli
 
 Then, you can download the script with the command below:
 ```
-curl -L -O github.com/thiggy01/ubuntu-20.04-change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
+wget github.com/thiggy01/ubuntu-20.04-change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
 ```
 And set it as an executable with `chmod +x gdm-change-login-background`
 

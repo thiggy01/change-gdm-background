@@ -23,7 +23,7 @@ if [ ! -x "$(command -v glib-compile-resources)" ]; then
 fi
 
 # Assign the default gdm theme file path.
-gdm3Resource=/usr/share/gnome-shell/gdm3-theme.gresource
+gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
 
 # Create a backup file of the original theme if there isn't one.
 [ ! -f "$gdm3Resource"~ ] && cp "$gdm3Resource" "$gdm3Resource~"
@@ -92,7 +92,7 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     glib-compile-resources "$gdm3xml"
 
     # Move the generated binary file to the gnome-shell folder.
-    mv gdm3-theme.gresource /usr/share/gnome-shell/
+    mv gnome-shell-theme.gresource $gdm3Resource
 
     # Check if gresource was sucessfuly moved to its default folder.
     if [ "$?" -eq 0 ]; then

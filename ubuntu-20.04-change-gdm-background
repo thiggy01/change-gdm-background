@@ -22,6 +22,8 @@ if [ ! -x "$(command -v glib-compile-resources)" ]; then
     if [[ "$REPLY" =~ ^[yY]$ ]]; then
 	apt install libglib2.0-dev-bin
     else
+	echo "This tool can't run without required libraries"
+	echo "Exiting."
 	echo
 	exit 1
     fi
@@ -107,6 +109,9 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
 	echo
 	if [ "$REPLY" == "y" ]; then
 	    service gdm restart
+	else
+	    echo "Change will be applied only after restarting gdm"
+	    echo
 	fi
     else
 	echo 'something went wrong.'

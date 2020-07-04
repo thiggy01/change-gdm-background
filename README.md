@@ -23,9 +23,9 @@ First, you will need to install libglib2.0-dev-bin with `sudo apt install libgli
 
 Then, you can download the script with the command below:
 ```
-wget github.com/thiggy01/ubuntu-20.04-change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
+ github.com/thiggy01/ubuntu-20.04-change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
 ```
-And set it as an executable with `chmod +x gdm-change-login-background`
+And set it as an executable with `chmod +x ubuntu-20.04-change-gdm-background`
 
 ## Usage
 

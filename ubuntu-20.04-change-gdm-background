@@ -41,8 +41,14 @@ mv "$gdm3Resource~" "$gdm3Resource"
 if [ "$?" -eq 0 ]; then
     chmod 644 "$gdm3Resource"
     echo 'GDM background sucessfully restored.'
-    echo 'Restart GDM service to apply change.'
-    exit 0
+    read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
+	echo
+	if [ "$REPLY" == "y" ]; then
+	    service gdm restart
+	else
+	    echo 'Restart GDM service to apply change.'
+	    exit 0
+	fi
 fi
 }
 

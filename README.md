@@ -3,6 +3,14 @@
 This script automates the process of setting an image in the GNOME Display Manager 3 background
 which comes by default with Ubuntu version 20.04 Focal Fossa.
 
+## GUI version of this tool
+
+If you are a experienced linux user and know how to compile programs, you can build my
+new program that can make this task much easier with a just a few clicks on the mouse.
+
+You just need access it's repo at `https://github.com/thiggy01/gdm-background` and follow the
+instructions to have it installed on your system. I even added instructions on how to uninstall it.
+
 ## Warning
 
 This script wont work with any older version of Ubuntu because they have a different

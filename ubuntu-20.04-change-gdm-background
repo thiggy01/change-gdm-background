@@ -7,7 +7,7 @@
 # Check if this script is run by root and execute it with sudo if it is not.
 if [ "$UID" -ne 0 ]; then
     exec sudo "$0" "$@"
-	exit
+    exit
 fi
 
 if [ ! "$(lsb_release -c | cut -f 2)" == focal ]; then

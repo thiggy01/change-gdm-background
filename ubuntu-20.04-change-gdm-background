@@ -10,8 +10,9 @@ if [ "$(id -u)" -ne 0 ] ; then
     exit 1
 fi
 
-if [ ! "$(lsb_release -c | cut -f 2)" == focal ]; then
-    echo 'Sorry, this script only work with Ubuntu 20.04'
+version="$(lsb_release -c | cut -f 2)"
+if [ ! "$version" == focal  -a ! "$version" == bullseye ]; then
+    echo 'Sorry, this script only work with Ubuntu 20.04 Focal or Debian 11 Bullseye'
     exit 1
 fi
 
@@ -20,17 +21,21 @@ if [ ! -x "$(command -v glib-compile-resources)" ]; then
     echo 'Additional glib 2.0 libraries need to be installed.'
     read -p 'Type y or Y to proceed. Any other key to exit: ' -n 1
     if [[ "$REPLY" =~ ^[yY]$ ]]; then
-	apt install libglib2.0-dev-bin
+        apt install libglib2.0-dev-bin
     else
-	echo "This tool can't run without required libraries"
-	echo "Exiting."
-	echo
-	exit 1
+        echo "This tool can't run without required libraries"
+        echo "Exiting."
+        echo
+        exit 1
     fi
 fi
 
 # Assign the default gdm theme file path.
-gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
+if [ "$version" == bullseye ]; then
+    gdm3Resource=/usr/share/gnome-shell/gnome-shell-theme.gresource
+else
+    gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
+fi
 
 # Create a backup file of the original theme if there isn't one.
 [ ! -f "$gdm3Resource"~ ] && cp "$gdm3Resource" "$gdm3Resource~"
@@ -42,13 +47,13 @@ if [ "$?" -eq 0 ]; then
     chmod 644 "$gdm3Resource"
     echo 'GDM background sucessfully restored.'
     read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
-	echo
-	if [ "$REPLY" == "y" ]; then
-	    service gdm restart
-	else
-	    echo 'Restart GDM service to apply change.'
-	    exit 0
-	fi
+        echo
+        if [ "$REPLY" == "y" ]; then
+            service gdm restart
+        else
+            echo 'Restart GDM service to apply change.'
+            exit 0
+        fi
 fi
 }
 
@@ -66,16 +71,16 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
 
     # Create directories from resource list.
     for resource in `gresource list "$gdm3Resource~"`; do
-	resource="${resource#\/org\/gnome\/shell\/}"
-	if [ ! -d "$workDir"/"${resource%/*}" ]; then
-	  mkdir -p "$workDir"/"${resource%/*}"
-	fi
+        resource="${resource#\/org\/gnome\/shell\/}"
+        if [ ! -d "$workDir"/"${resource%/*}" ]; then
+          mkdir -p "$workDir"/"${resource%/*}"
+        fi
     done
 
     # Extract resources from binary file.
     for resource in `gresource list "$gdm3Resource~"`; do
-	gresource extract "$gdm3Resource~" "$resource" > \
-	"$workDir"/"${resource#\/org\/gnome\/shell\/}"
+        gresource extract "$gdm3Resource~" "$resource" > \
+        "$workDir"/"${resource#\/org\/gnome\/shell\/}"
     done
 
     # Copy selected image to the resources directory.
@@ -84,17 +89,21 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     # Change gdm background to the image you submited.
     oldImg="#lockDialogGroup \{.*?\}"
     newImg="#lockDialogGroup {
-	background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
-	background-size: cover; }"
-    perl -i -0777 -pe "s/$oldImg/$newImg/s" "$workDir"/theme/gdm3.css
+        background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
+        background-size: cover; }"
+    if [ "$version" == bullseye ]; then
+        perl -i -0777 -pe "s/$oldImg/$newImg/s" "$workDir"/theme/gnome-shell.css
+    else
+        perl -i -0777 -pe "s/$oldImg/$newImg/s" "$workDir"/theme/gdm3.css
+    fi
 
     # Generate gresource xml file.
     echo '<?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/org/gnome/shell/theme">' > "$workDir"/theme/"$gdm3xml"
     for file in `gresource list "$gdm3Resource~"`; do
-	echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
-	>> "$workDir"/theme/"$gdm3xml"
+        echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
+        >> "$workDir"/theme/"$gdm3xml"
     done
     echo "        <file>$imgFile</file>" >> "$workDir"/theme/"$gdm3xml"
     echo '    </gresource>
@@ -109,20 +118,21 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     # Check if gresource was sucessfuly moved to its default folder.
     if [ "$?" -eq 0 ]; then
     # Solve a permission change issue (thanks to @huepf from github).
-	chmod 644 "$gdm3Resource"
-	echo 'GDM background sucessfully changed.'
-	read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
-	echo
-	if [ "$REPLY" == "y" ]; then
-	    service gdm restart
-	else
-	    echo "Change will be applied only after restarting gdm"
-	    echo
-	fi
+        chmod 644 "$gdm3Resource"
+        echo 'GDM background sucessfully changed.'
+        echo 'Please, SAVE ALL DOCUMENTS before you finish the session or restart gdm.'
+        read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
+        echo
+        if [ "$REPLY" == "y" ]; then
+            service gdm restart
+        else
+            echo "Change will be applied only after you finish the session or restarting gdm"
+            echo
+        fi
     else
-	echo 'something went wrong.'
-	restore
-	echo 'No changes were applied.'
+        echo 'something went wrong.'
+        restore
+        echo 'No changes were applied.'
     fi
 
     # Remove temporary directories and files.

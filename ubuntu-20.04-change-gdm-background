@@ -126,7 +126,7 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     fi
 
     # Remove temporary directories and files.
-    rm -r "$workDir"
+    # rm -r "$workDir"
 
 else
 

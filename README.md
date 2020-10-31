@@ -45,6 +45,14 @@ computer, your gdm background should be covered with the image you selected.
 You can restore your original gdm theme any time with sudo `./ubuntu-20.04-change-gdm-background
 --restore`.
 
+### Multi-screen support
+
+if you use ntwo or more monitors you may see a streched image through the displays as if they were one screen. This is the default behavior of GDM3 when dealing with multiple displays.
+
+I found a way to configure GDM to work in other modes like mirror or even single display [here](https://github.com/thiggy01/ubuntu-20.04-change-gdm-background/issues/15), avoiding the joining of them.
+
+## Donation
+
 If you feel this tool was useful and want to show some appreciation, you can donate via
 https://ko-fi.com/thiggy01.
 

@@ -27,7 +27,7 @@ new program that can make this task much easier with a just a few clicks with th
 
 ## New Feature!
 
-Now you can change that annoying purple color to any color you like. Just type `sudo ./ubuntu-20.04-change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should of six characters like \#407294 or three characters like \#6ac.
+Now you can change that annoying purple color to any color you like. Just type `sudo ./ubuntu-20.04-change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should be of six characters like \\#407294 or three characters like \\#6ac.
 
 ## Installation
 

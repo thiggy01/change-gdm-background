@@ -3,11 +3,6 @@
 This script automates the process of setting an image in the GNOME Display Manager 3 background
 which comes by default with Ubuntu version 20.04 Focal Fossa.
 
-## GUI version
-
-If you are an experienced linux user and know how to compile programs, you can build my
-new program that can make this task much easier with a just a few clicks with the mouse.
-
 You just need access it's repo at https://github.com/thiggy01/gdm-background and follow the
 instructions to have it installed on your system. I even added instructions on how to uninstall it.
 
@@ -24,6 +19,15 @@ configuration files inside a .gresource file.
 
 If you are going to set an image file that has spaces in its file name or folders, remember to
 scape them with backslashes.
+
+## GUI version
+
+If you are an experienced linux user and know how to compile programs, you can build my
+new program that can make this task much easier with a just a few clicks with the mouse.
+
+## New Feature!
+
+Now you can change that annoying purple color to any color you like. Just type `sudo ./ubuntu-20.04-change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should of six characters like \#407294 or three characters like \#6ac.
 
 ## Installation
 

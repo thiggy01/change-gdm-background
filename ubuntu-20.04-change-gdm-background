@@ -55,38 +55,84 @@ fi
 # Restore the original gdm3 theme.
 [ "$1" == "--restore" ] && restore
 
+#Define main variables.
+gdm3xml=$(basename "$gdm3Resource").xml
+workDir="/tmp/gdm3-theme"
+
+# Create directories from resource list.
+CreateDirs() {
+for resource in `gresource list "$gdm3Resource~"`; do
+    resource="${resource#\/org\/gnome\/shell\/}"
+    if [ ! -d "$workDir"/"${resource%/*}" ]; then
+      mkdir -p "$workDir"/"${resource%/*}"
+    fi
+done
+}
+
+# Extract resources from binary file.
+ExtractRes() {
+for resource in `gresource list "$gdm3Resource~"`; do
+    gresource extract "$gdm3Resource~" "$resource" > \
+    "$workDir"/"${resource#\/org\/gnome\/shell\/}"
+done
+}
+
+# Compile resources into a gresource binary file.
+CompileMoveRes() {
+glib-compile-resources --sourcedir=$workDir/theme/ $workDir/theme/"$gdm3xml"
+# Move the generated binary file to the gnome-shell folder.
+mv $workDir/theme/gnome-shell-theme.gresource $gdm3Resource
+}
+
+# Check if gresource was sucessfuly moved to its default folder.
+Check() {
+if [ "$?" -eq 0 ]; then
+# Solve a permission change issue (thanks to @huepf from github).
+    chmod 644 "$gdm3Resource"
+    echo 'GDM background sucessfully changed.'
+    read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
+    echo
+    # If change was successful apply ask for gdm restart.
+    if [ "$REPLY" == "y" ]; then
+	service gdm restart
+    else
+	echo "Change will be applied only after restarting gdm"
+	echo
+    fi
+else
+    # If something went wrong, restore backup file.
+    echo 'something went wrong.'
+    restore
+    echo 'No changes were applied.'
+fi
+}
+
+CleanUp() {
+    # Remove temporary directories and files.
+    rm -r "$workDir"
+    exit 0
+}
+
 # Test if argument is an image file.
 if [[ $(file --mime-type -b "$1") == image/*g ]]; then
 
-    # Define more variables.
-    gdm3xml=$(basename "$gdm3Resource").xml
-    workDir="/tmp/gdm3-theme"
+    # Define image variables.
     gdmBgImg=$(realpath "$1")
     imgFile=$(basename "$gdmBgImg")
 
-    # Create directories from resource list.
-    for resource in `gresource list "$gdm3Resource~"`; do
-	resource="${resource#\/org\/gnome\/shell\/}"
-	if [ ! -d "$workDir"/"${resource%/*}" ]; then
-	  mkdir -p "$workDir"/"${resource%/*}"
-	fi
-    done
-
-    # Extract resources from binary file.
-    for resource in `gresource list "$gdm3Resource~"`; do
-	gresource extract "$gdm3Resource~" "$resource" > \
-	"$workDir"/"${resource#\/org\/gnome\/shell\/}"
-    done
+    # Call procedures to create directories and extract resources to them.
+    CreateDirs
+    ExtractRes
 
     # Copy selected image to the resources directory.
     cp "$gdmBgImg" "$workDir"/theme
 
     # Change gdm background to the image you submited.
-    oldImg="#lockDialogGroup \{.*?\}"
-    newImg="#lockDialogGroup {
+    oldBg="#lockDialogGroup \{.*?\}"
+    newBg="#lockDialogGroup {
 	background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
 	background-size: cover; }"
-    perl -i -0777 -pe "s/$oldImg/$newImg/s" "$workDir"/theme/gdm3.css
+    perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm3.css
 
     # Generate gresource xml file.
     echo '<?xml version="1.0" encoding="UTF-8"?>
@@ -100,42 +146,57 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     echo '    </gresource>
 </gresources>' >> "$workDir"/theme/"$gdm3xml"
 
-    # Compile resources into a gresource binary file.
-    glib-compile-resources --sourcedir=$workDir/theme/ $workDir/theme/"$gdm3xml"
+    # Compile and move gresource.
+    CompileMoveRes
 
-    # Move the generated binary file to the gnome-shell folder.
-    mv $workDir/theme/gnome-shell-theme.gresource $gdm3Resource
+    # Check if everything was successful.
+    Check
 
-    # Check if gresource was sucessfuly moved to its default folder.
-    if [ "$?" -eq 0 ]; then
-    # Solve a permission change issue (thanks to @huepf from github).
-	chmod 644 "$gdm3Resource"
-	echo 'GDM background sucessfully changed.'
-	read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
-	echo
-	if [ "$REPLY" == "y" ]; then
-	    service gdm restart
-	else
-	    echo "Change will be applied only after restarting gdm"
-	    echo
-	fi
-    else
-	echo 'something went wrong.'
-	restore
-	echo 'No changes were applied.'
-    fi
+    # Remove temporary files and exit.
+    CleanUp
 
-    # Remove temporary directories and files.
-    rm -r "$workDir"
+elif [[ "$1" =~ ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$ ]]; then
 
-    exit 0
+    #Store selected background color.
+    BgColor="$1"
+
+    CreateDirs
+    ExtractRes
+
+    # Change gdm background to the color you submited.
+    oldBg="#lockDialogGroup \{.*?\}"
+    newBg="#lockDialogGroup {
+	background: $BgColor;
+	background-size: cover; }"
+    perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm3.css
+
+    # Generate the gresource xml file.
+    echo '<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+    <gresource prefix="/org/gnome/shell/theme">' > "$workDir"/theme/"$gdm3xml"
+    for file in `gresource list "$gdm3Resource~"`; do
+	echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
+	>> "$workDir"/theme/"$gdm3xml"
+    done
+    echo '    </gresource>
+</gresources>' >> "$workDir"/theme/"$gdm3xml"
+
+    # Compile and move gresoure.
+    CompileMoveRes
+
+    # Check if everything was sucessfull.
+    Check
+
+    # Remove temporary files and exit.
+    CleanUp
 
 else
 
     # If no file was submited or file submited isn't an image,
     # show this message.
-    echo 'Image file not foud.'
-    echo 'Please, submit a .jpg or .png image file.'
+    echo 'Image file not found or wrong color hex code.'
+    echo 'Please, submit a .jpg or .png image file or a valid hex code.'
     echo 'Usage: sudo ./ubuntu-20.04-change-gdm-background /path/to/image.*g'
+    echo 'Usage: sudo ./ubuntu-20.04-change-gdm-background \#yourhexcode'
 
 fi

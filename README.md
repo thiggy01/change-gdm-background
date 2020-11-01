@@ -25,10 +25,6 @@ scape them with backslashes.
 If you are an experienced linux user and know how to compile programs, you can build my
 new program that can make this task much easier with a just a few clicks with the mouse.
 
-## New Feature!
-
-Now you can change that annoying purple color to any color you like. Just type `sudo ./ubuntu-20.04-change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should be of six characters like \\#407294 or three characters like \\#6ac.
-
 ## Installation
 
 First, you will need to install libglib2.0-dev-bin with `sudo apt install libglib2.0-dev-bin`
@@ -48,6 +44,10 @@ computer, your gdm background should be covered with the image you selected.
 
 You can restore your original gdm theme any time with sudo `./ubuntu-20.04-change-gdm-background
 --restore`.
+
+### New Feature!
+
+Now you can change that annoying purple color to any color you like. Just type `sudo ./ubuntu-20.04-change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should be of six characters like \\#407294 or three characters like \\#6ac.
 
 ### Multi-screen support
 

@@ -10,8 +10,10 @@ if [ "$(id -u)" -ne 0 ] ; then
     exit 1
 fi
 
-if [ ! "$(lsb_release -c | cut -f 2)" == focal ]; then
-    echo 'Sorry, this script only work with Ubuntu 20.04'
+# Check what linux distro is being used.
+distro="$(lsb_release -c | cut -f 2)"
+if ! [[ "$distro" =~ (focal|groovy) ]]; then
+    echo 'Sorry, this script only works with Ubuntu 20.04 or 20.10'
     exit 1
 fi
 

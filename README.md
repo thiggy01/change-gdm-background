@@ -33,29 +33,29 @@ First, you will need to install libglib2.0-dev-bin with `sudo apt install libgli
 
 Then, you can download the script with the command below:
 ```
-wget github.com/thiggy01/change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
+wget github.com/thiggy01/change-gdm-background/raw/master/change-gdm-background
 ```
-And set it as an executable with `chmod +x ubuntu-20.04-change-gdm-background`
+And set it as an executable with `chmod +x change-gdm-background`
 
 ## Usage
 
-Run the script with root privileges such as `sudo ./ubuntu-20.04-change-gdm-background /path/to/image`.
+Run the script with root privileges such as `sudo ./change-gdm-background /path/to/image`.
 
 If you see a message `login image sucessfully changed`, then, when you restart gdm or reboot your
 computer, your gdm background should be covered with the image you selected.
 
-You can restore your original gdm theme any time with sudo `./ubuntu-20.04-change-gdm-background
+You can restore your original gdm theme any time with `sudo ./change-gdm-background
 --restore`.
 
 ### New Feature!
 
-Now you can change that annoying purple color to any color you like. Just type `sudo ./ubuntu-20.04-change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should be of six characters like \\#407294 or three characters like \\#6ac.
+Now you can change that annoying purple color to any color you like. Just type `sudo ./change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should be of six characters like \\#407294 or three characters like \\#6ac.
 
 ### Multi-screen support
 
 if you use two or more monitors you may see a streched image through the displays as if they were one screen. This is the default behavior of GDM3 when dealing with multiple displays.
 
-I found a way to configure GDM to work in other modes like mirror or even single display [here](https://github.com/thiggy01/ubuntu-20.04-change-gdm-background/issues/15), avoiding the joining of them.
+I found a way to configure GDM to work in other modes like mirror or even single display [here](https://github.com/thiggy01/change-gdm-background/issues/15), avoiding the joining of them.
 
 ## Donation
 

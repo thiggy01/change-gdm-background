@@ -1,25 +1,25 @@
-# ubuntu-20.XX-change-gdm-background
+# change-gdm-background
 
-We now support Ubuntu 20.10!
+We now support Ubuntu 20.10 and Pop OS 20.04 and 20.10!
 
 This script automates the process of setting an image or color in GNOME Display Manager 3 background
-which comes by default with Ubuntu version 20.04 Focal Fossa or 20.10 Groovy Gorilla.
+which comes by default with Ubuntu or Pop OS versions 20.04 Focal Fossa or 20.10 Groovy Gorilla.
 
 ## Warning
 
-This script wont work with any older version of Ubuntu because they have a different
+This script wont work with any older version of Ubuntu or Pop OS because they have a different
 way of dealing with gdm settings.
 
 It also won't work if your system is set to a custom gdm3 theme. You will have to reset to the
 default configuration of gdm3 before using the script.
 
-This tool was made specifically to work with Ubuntu 20.04 as it now bundles all
+This tool was made specifically to work with Ubuntu or Pop OS 20.04 and 20.10 as it now bundles all
 configuration files inside a .gresource file.
 
 If you are going to set an image file that has spaces in its file name or folders, remember to
 scape them with backslashes.
 
-## GUI version
+## GUI version (Ubuntu only)
 
 If you are an experienced linux user and know how to compile programs, you can build my
 new program that can make this task much easier with a just a few clicks with the mouse.
@@ -33,7 +33,7 @@ First, you will need to install libglib2.0-dev-bin with `sudo apt install libgli
 
 Then, you can download the script with the command below:
 ```
-wget github.com/thiggy01/ubuntu-20.04-change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
+wget github.com/thiggy01/change-gdm-background/raw/master/ubuntu-20.04-change-gdm-background
 ```
 And set it as an executable with `chmod +x ubuntu-20.04-change-gdm-background`
 

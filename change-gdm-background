@@ -51,7 +51,7 @@ if [ "$?" -eq 0 ]; then
     echo 'GDM background sucessfully restored.'
     read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
 	echo
-	if [ "$REPLY" == "y" ]; then
+	if [[ "$REPLY" =~ ^[yY]$ ]]; then
 	    service gdm restart
 	else
 	    echo 'Restart GDM service to apply change.'
@@ -101,7 +101,7 @@ if [ "$?" -eq 0 ]; then
     read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
     echo
     # If change was successful apply ask for gdm restart.
-    if [ "$REPLY" == "y" ]; then
+    if [[ "$REPLY" =~ ^[yY]$ ]]; then
 	service gdm restart
     else
 	echo "Change will be applied only after restarting gdm"

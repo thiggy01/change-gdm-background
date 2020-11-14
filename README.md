@@ -19,13 +19,15 @@ configuration files inside a .gresource file.
 If you are going to set an image file that has spaces in its file name or folders, remember to
 scape them with backslashes.
 
-## GUI version (Ubuntu only)
+## GUI version
 
 If you are an experienced linux user and know how to compile programs, you can build my
 new program that can make this task much easier with a just a few clicks with the mouse.
 
 You just need access its repo at https://github.com/thiggy01/gdm-background and follow the
 instructions to have it installed on your system. I even added instructions on how to uninstall it.
+
+It works either Ubuntu or Pop OS.
 
 ## Installation
 
@@ -47,7 +49,7 @@ computer, your gdm background should be covered with the image you selected.
 You can restore your original gdm theme any time with `sudo ./change-gdm-background
 --restore`.
 
-### New Feature!
+### Change Color
 
 Now you can change that annoying purple color to any color you like. Just type `sudo ./change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should be of six characters like \\#407294 or three characters like \\#6ac.
 

@@ -127,9 +127,8 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     imgFile=$(basename "$gdmBgImg")
 
     # Call procedures to create directories and extract resources to them.
-    CreateDirs
- echo test
-    ExtractRes
+    # CreateDirs
+    # ExtractRes
 
     # Copy selected image to the resources directory.
     cp "$gdmBgImg" "$workDir"/theme
@@ -160,11 +159,12 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     Check
 
     # Remove temporary files and exit.
-    CleanUp
+    # CleanUp
 
+# Change background colors.
 elif [[ "$1" =~ ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$ ]]; then
 
-    #Store selected background color.
+    # Store selected background color.
     BgColor="$1"
 
     CreateDirs

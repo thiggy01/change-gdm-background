@@ -21,18 +21,16 @@ scape them with backslashes.
 
 ## GUI version
 
-If you are an experienced linux user and know how to compile programs, you can build my
-new program that can make this task much easier with a just a few clicks with the mouse.
+I have created a GUI program to make this task much easier and simple with just a few clicks
+on the mouse.
 
-You just need access its repo at https://github.com/thiggy01/gdm-background and follow the
-instructions to have it installed on your system. I even added instructions on how to uninstall it.
-
-It works either Ubuntu or Pop OS.
+The instructions to download it or compile it yourself can be accessed in
+https://github.com/thiggy01/gdm-background.
+It works either in Ubuntu or Pop OS 20.04 or 20.10 too.
 
 ## Installation
 
 First, you will need to install libglib2.0-dev-bin with `sudo apt install libglib2.0-dev-bin`
-
 Then, you can download the script with the command below:
 ```
 wget github.com/thiggy01/change-gdm-background/raw/master/change-gdm-background
@@ -51,13 +49,17 @@ You can restore your original gdm theme any time with `sudo ./change-gdm-backgro
 
 ### Change Color
 
-Now you can change that annoying purple color to any color you like. Just type `sudo ./change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should be of six characters like \\#407294 or three characters like \\#6ac.
+Now you can change that annoying purple color to any color you like. Just type `sudo
+./change-gdm-background \#yourhexcode` and voilá, you changed it. Your color hex format should
+be of six characters like \\#407294 or three characters like \\#6ac.
 
 ### Multi-screen support
 
-if you use two or more monitors you may see a streched image through the displays as if they were one screen. This is the default behavior of GDM3 when dealing with multiple displays.
+if you use two or more monitors you may see a streched image through the displays as if they were
+    one screen. This is the default behavior of GDM3 when dealing with multiple displays.
 
-I found a way to configure GDM to work in other modes like mirror or even single display [here](https://github.com/thiggy01/change-gdm-background/issues/15), avoiding the joining of them.
+I found a way to configure GDM to work in other modes like mirror or even single display
+[here](https://github.com/thiggy01/change-gdm-background/issues/15), avoiding the joining of them.
 
 ## Donation
 

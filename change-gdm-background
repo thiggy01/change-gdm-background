@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Autor: Thiago Silva
 # Contact: thiagos.dasilva@gmail.com
-# URL: https://github.com/thiggy01/ubuntu-20.04-change-gdm-background
+# URL: https://github.com/thiggy01/change-gdm-background
 # =================================================================== #
 
 # Check if script is run by root.
@@ -12,8 +12,8 @@ fi
 
 # Check what linux distro is being used.
 distro="$(lsb_release -c | cut -f 2)"
-if ! [[ "$distro" =~ (focal|groovy) ]]; then
-    echo 'Sorry, this script only works with focal or groovy distros.'
+if ! [[ "$distro" =~ (focal|groovy|hirsute) ]]; then
+    echo 'Sorry, this script only works with focal, groovy or hirsute distros.'
     exit 1
 fi
 
@@ -84,9 +84,12 @@ done
 }
 
 # Compile resources into a gresource binary file.
-CompileMoveRes() {
+CompileRes() {
 glib-compile-resources --sourcedir=$workDir/theme/ $workDir/theme/"$gdm3xml"
-# Move the generated binary file to the gnome-shell folder.
+}
+
+# Moves the newly created resource to its default place.
+MoveRes() {
 mv $workDir/theme/gnome-shell-theme.gresource $gdm3Resource
 }
 
@@ -152,8 +155,11 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     echo '    </gresource>
 </gresources>' >> "$workDir"/theme/"$gdm3xml"
 
-    # Compile and move gresource.
-    CompileMoveRes
+    # Compile the new gresource.
+    CompileRes
+
+    # Move gresource to the default place.
+    MoveRes
 
     # Check if everything was successful.
     Check
@@ -188,11 +194,11 @@ elif [[ "$1" =~ ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$ ]]; then
     echo '    </gresource>
 </gresources>' >> "$workDir"/theme/"$gdm3xml"
 
-    # Compile and move gresoure.
-    CompileMoveRes
+    # Compile the new gresource.
+    CompileRes
 
-    # Check if everything was sucessfull.
-    Check
+    # Move gresource to the default place.
+    MoveRes
 
     # Remove temporary files and exit.
     CleanUp

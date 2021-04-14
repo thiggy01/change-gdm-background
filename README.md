@@ -1,9 +1,8 @@
 # change-gdm-background
 
-We now support Ubuntu 20.10 and Pop OS 20.04 and 20.10!
-
 This script automates the process of setting an image or color in GNOME Display Manager 3 background
-which comes by default with Ubuntu or Pop OS versions 20.04 Focal Fossa or 20.10 Groovy Gorilla.
+which comes by default with Ubuntu or Pop OS versions 20.04 Focal Fossa, 20.10 Groovy Gorilla and
+21.04 Hirsute Hippo.
 
 ## Warning
 
@@ -13,8 +12,8 @@ way of dealing with gdm settings.
 It also won't work if your system is set to a custom gdm3 theme. You will have to reset to the
 default configuration of gdm3 before using the script.
 
-This tool was made specifically to work with Ubuntu or Pop OS 20.04 and 20.10 as it now bundles all
-configuration files inside a .gresource file.
+This tool was made specifically to work with Ubuntu or Pop OS 20.04, 20.10 and 21.04 as it now
+bundles all configuration files inside a .gresource file.
 
 If you are going to set an image file that has spaces in its file name or folders, remember to
 scape them with backslashes.

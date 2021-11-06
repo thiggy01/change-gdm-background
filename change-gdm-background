@@ -11,9 +11,9 @@ if [ "$(id -u)" -ne 0 ] ; then
 fi
 
 # Check what linux distro is being used.
-distro="$(lsb_release -c | cut -f 2)"
-if ! [[ "$distro" =~ (focal|groovy|hirsute) ]]; then
-    echo 'Sorry, this script only works with focal, groovy or hirsute distros.'
+distro="$(lsb_release -r | cut -f 2 | cut -b 1,2)"
+if ! [ "$distro" -ge 20 ]; then
+    echo 'Sorry, this script only works with ubuntu distros from 20 onwards'
     exit 1
 fi
 

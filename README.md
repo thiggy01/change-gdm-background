@@ -1,8 +1,7 @@
 # Overview
 
 This script automates the process of setting an image or color in GNOME Display Manager 3 background
-which comes by default with Ubuntu or Pop OS versions 20.04 Focal Fossa, 20.10 Groovy Gorilla and
-21.04 Hirsute Hippo.
+which comes by default with Ubuntu based distros from the 20.04 onwards.
 
 ## Warning
 

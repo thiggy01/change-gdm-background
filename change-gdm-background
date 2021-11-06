@@ -12,7 +12,7 @@ fi
 
 # Check what linux distro is being used.
 distro="$(lsb_release -c | cut -f 2)"
-if ! [[ "$distro" =~ (focal|groovy|hirsute) ]]; then
+if ! [[ "$distro" =~ (focal|groovy|hirsute|impish) ]]; then
     echo 'Sorry, this script only works with focal, groovy or hirsute distros.'
     exit 1
 fi
@@ -22,12 +22,12 @@ if [ ! -x "$(command -v glib-compile-resources)" ]; then
     echo 'Additional glib 2.0 libraries need to be installed.'
     read -p 'Type y or Y to proceed. Any other key to exit: ' -n 1
     if [[ "$REPLY" =~ ^[yY]$ ]]; then
-	apt install libglib2.0-dev-bin
+    apt install libglib2.0-dev-bin
     else
-	echo "This tool can't run without required libraries"
-	echo "Exiting."
-	echo
-	exit 1
+    echo "This tool can't run without required libraries"
+    echo "Exiting."
+    echo
+    exit 1
     fi
 fi
 
@@ -48,13 +48,13 @@ if [ "$?" -eq 0 ]; then
     chmod 644 "$gdm3Resource"
     echo 'GDM background sucessfully restored.'
     read -p 'Do you want to restart gdm to apply change? (y/n):' -n 1
-	echo
-	if [[ "$REPLY" =~ ^[yY]$ ]]; then
-	    service gdm restart
-	else
-	    echo 'Restart GDM service to apply change.'
-	    exit 0
-	fi
+    echo
+    if [[ "$REPLY" =~ ^[yY]$ ]]; then
+        service gdm restart
+    else
+        echo 'Restart GDM service to apply change.'
+        exit 0
+    fi
 fi
 }
 
@@ -103,10 +103,10 @@ if [ "$?" -eq 0 ]; then
     echo
     # If change was successful apply ask for gdm restart.
     if [[ "$REPLY" =~ ^[yY]$ ]]; then
-	service gdm restart
+    service gdm restart
     else
-	echo "Change will be applied only after restarting gdm"
-	echo
+    echo "Change will be applied only after restarting gdm"
+    echo
     fi
 else
     # If something went wrong, restore backup file.
@@ -120,6 +120,15 @@ CleanUp() {
     # Remove temporary directories and files.
     rm -r "$workDir"
     exit 0
+}
+
+ReplacingBg() {
+    oldBg="#lockDialogGroup \{\n?.*?\}"
+    if  [[ "$distro" == "impish" ]]; then
+        perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm.css
+    else 
+        perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm3.css
+    fi
 }
 
 # Test if argument is an image file.
@@ -137,19 +146,18 @@ if [[ $(file --mime-type -b "$1") == image/*g ]]; then
     cp "$gdmBgImg" "$workDir"/theme
 
     # Change gdm background to the image you submited.
-    oldBg="#lockDialogGroup \{.*?\}"
     newBg="#lockDialogGroup {
-	background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
-	background-size: cover; }"
-    perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm3.css
+    background: url('resource:\/\/\/org\/gnome\/shell\/theme\/$imgFile');
+    background-size: cover; }"
+    ReplacingBg
 
     # Generate gresource xml file.
     echo '<?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/org/gnome/shell/theme">' > "$workDir"/theme/"$gdm3xml"
     for file in `gresource list "$gdm3Resource~"`; do
-	echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
-	>> "$workDir"/theme/"$gdm3xml"
+    echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
+    >> "$workDir"/theme/"$gdm3xml"
     done
     echo "        <file>$imgFile</file>" >> "$workDir"/theme/"$gdm3xml"
     echo '    </gresource>
@@ -177,19 +185,18 @@ elif [[ "$1" =~ ^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$ ]]; then
     ExtractRes
 
     # Change gdm background to the color you submited.
-    oldBg="#lockDialogGroup \{.*?\}"
     newBg="#lockDialogGroup {
-	background: $BgColor;
-	background-size: cover; }"
-    perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm3.css
+    background: $BgColor;
+    background-size: cover; }"
+    ReplacingBg
 
     # Generate the gresource xml file.
     echo '<?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/org/gnome/shell/theme">' > "$workDir"/theme/"$gdm3xml"
     for file in `gresource list "$gdm3Resource~"`; do
-	echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
-	>> "$workDir"/theme/"$gdm3xml"
+    echo "        <file>${file#\/org\/gnome/shell\/theme\/}</file>" \
+    >> "$workDir"/theme/"$gdm3xml"
     done
     echo '    </gresource>
 </gresources>' >> "$workDir"/theme/"$gdm3xml"

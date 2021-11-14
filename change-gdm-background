@@ -12,8 +12,8 @@ fi
 
 # Check what linux distro is being used.
 distro="$(lsb_release -c | cut -f 2)"
-if ! [[ "$distro" =~ (focal|groovy|hirsute|impish) ]]; then
-    echo 'Sorry, this script only works with focal, groovy or hirsute distros.'
+if ! [[ "$distro" =~ (focal|groovy|hirsute|impish|jammy) ]]; then
+    echo 'Sorry, this script only works with focal, groovy, hirsute, impish or jammy distros.'
     exit 1
 fi
 

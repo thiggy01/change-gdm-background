@@ -124,7 +124,7 @@ CleanUp() {
 
 ReplacingBg() {
     oldBg="#lockDialogGroup \{\n?.*?\}"
-    if  [[ "$distro" == "impish" ]]; then
+    if  [[ "$distro" =~ (impish|jammy) ]]; then
         perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm.css
     else 
         perl -i -0777 -pe "s/$oldBg/$newBg/s" "$workDir"/theme/gdm3.css

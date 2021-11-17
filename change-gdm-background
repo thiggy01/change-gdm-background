@@ -32,10 +32,10 @@ if [ ! -x "$(command -v glib-compile-resources)" ]; then
 fi
 
 # Assign the default gdm theme file path.
-if [ "$(lsb_release -i | awk '{print $3}')" == 'Ubuntu' ]; then
-    gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
-elif [ "$(lsb_release -i | awk '{print $3}')" == 'Pop' ]; then
-    gdm3Resource=/usr/share/gnome-shell/theme/Pop/gnome-shell-theme.gresource
+gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
+lsbRelease="$(lsb_release -i | awk '{print $3}')"
+if [ "$lsbRelease" == "Pop" ]; then
+	gdm3Resource=/usr/share/gnome-shell/theme/Pop/gnome-shell-theme.gresource
 fi
 
 # Create a backup file of the original theme if there isn't one.

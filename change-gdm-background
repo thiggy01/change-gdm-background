@@ -38,6 +38,26 @@ if [ "$lsbRelease" == "Pop" ]; then
     gdm3Resource=/usr/share/gnome-shell/theme/Pop/gnome-shell-theme.gresource
 fi
 
+# Check backup version, does it match with the os distro?
+etcGdm=/etc/change-gdm-background.conf
+currentVersion="$(lsb_release -r | cut -f 2)"
+if [[ (! -f "$etcGdm") && (! -f "$gdm3Resource"~) ]]; then
+    echo "$currentVersion" > "$etcGdm"
+fi
+if [[ (! -f "$etcGdm") && -f "$gdm3Resource"~ ]]; then
+    echo "Is this script working fine previously? (y/n):"
+    read -p " " -n 1
+    if [[ "$REPLY" =~ ^[yY]$ ]]; then
+        echo "$currentVersion" > "$etcGdm"
+    fi
+fi
+etcGdmContent="$(head -1 "$etcGdm")"
+if [[ "$currentVersion" != "$etcGdmContent" && -f "$gdm3Resource"~ ]]; then
+    echo "Force making new backup."
+    echo "$currentVersion" > "$etcGdm"
+    cp -f "$gdm3Resource" "$gdm3Resource~"
+fi
+
 # Create a backup file of the original theme if there isn't one.
 [ ! -f "$gdm3Resource"~ ] && cp "$gdm3Resource" "$gdm3Resource~"
 

@@ -211,5 +211,6 @@ else
     echo 'Please, submit a .jpg or .png image file or a valid hex code.'
     echo 'Usage: sudo ./ubuntu-20.04-change-gdm-background /path/to/image.*g'
     echo 'Usage: sudo ./ubuntu-20.04-change-gdm-background \#yourhexcode'
+    exit 2
 
 fi

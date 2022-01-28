@@ -20,12 +20,8 @@ scape them with backslashes.
 
 ## GUI version
 
-I have created a GUI program to make this task much easier and simple with just a few clicks
-on the mouse.
-
-The instructions to download it or compile it yourself can be accessed in
-https://github.com/thiggy01/gdm-background.
-It works either in Ubuntu or Pop OS 20.04 or 20.10 too.
+I HAVE DISABLED THE GUI APP REPO BECASE IT WAS CAUSING THE NEW UBUNTU 21.10 TO CRASH.
+SORRY FOR ANY INCOVENIENCE.
 
 ## Installation
 

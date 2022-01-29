@@ -32,10 +32,30 @@ if [ ! -x "$(command -v glib-compile-resources)" ]; then
 fi
 
 # Assign the default gdm theme file path.
-if [ "$(lsb_release -i | awk '{print $3}')" == 'Ubuntu' ]; then
-    gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
-elif [ "$(lsb_release -i | awk '{print $3}')" == 'Pop' ]; then
+gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
+lsbRelease="$(lsb_release -i | awk '{print $3}')"
+if [ "$lsbRelease" == "Pop" ]; then
     gdm3Resource=/usr/share/gnome-shell/theme/Pop/gnome-shell-theme.gresource
+fi
+
+# Check backup version, does it match with the os distro?
+etcGdm=/etc/change-gdm-background.conf
+currentVersion="$(lsb_release -r | cut -f 2)"
+if [[ (! -f "$etcGdm") && (! -f "$gdm3Resource"~) ]]; then
+    echo "$currentVersion" > "$etcGdm"
+fi
+if [[ (! -f "$etcGdm") && -f "$gdm3Resource"~ ]]; then
+    echo "Is this script working fine previously? (y/n):"
+    read -p " " -n 1
+    if [[ "$REPLY" =~ ^[yY]$ ]]; then
+        echo "$currentVersion" > "$etcGdm"
+    fi
+fi
+etcGdmContent="$(head -1 "$etcGdm")"
+if [[ "$currentVersion" != "$etcGdmContent" && -f "$gdm3Resource"~ ]]; then
+    echo "Force making new backup."
+    echo "$currentVersion" > "$etcGdm"
+    cp -f "$gdm3Resource" "$gdm3Resource~"
 fi
 
 # Create a backup file of the original theme if there isn't one.

@@ -36,6 +36,8 @@ if [ "$(lsb_release -i | awk '{print $3}')" == 'Ubuntu' ]; then
     gdm3Resource=/usr/share/gnome-shell/theme/Yaru/gnome-shell-theme.gresource
 elif [ "$(lsb_release -i | awk '{print $3}')" == 'Pop' ]; then
     gdm3Resource=/usr/share/gnome-shell/theme/Pop/gnome-shell-theme.gresource
+elif [ "$(lsb_release -i | awk '{print $3}')" == 'Zorin' ]; then
+    gdm3Resource=/usr/share/gnome-shell/theme/ZorinBlue-Light/gnome-shell-theme.gresource
 fi
 
 # Create a backup file of the original theme if there isn't one.
